@@ -142,7 +142,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         var bull_statue_longitude = 127.076197
 
 
-
         conMapMarker(front_hall_smoking_area,naverMap,"프론트홀",front_hall_latitude,front_hall_longitude)
         conMapMarker(innovation_hall_smoking_area,naverMap,"혁신관",innovation_hall_latitude,innovation_hall_longitude)
         conMapMarker(cooperative_hall_smoking_area,naverMap,"협동관",cooperative_hall_latitude,cooperative_hall_longitude)
