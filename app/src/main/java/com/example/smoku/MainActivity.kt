@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (mDialogView?.parent != null) {
                         (mDialogView?.parent as ViewGroup).removeView(mDialogView)
                     }
-                    val smokingZone = mDialogView?.findViewById<TextView>(R.id.smokingZone)
+                    val smokingZone = mDialogView?.findViewById<TextView>(R.id.smokingAreaLabel)
                     smokingZone?.setText(captionText)
                     mBuilder?.setView(mDialogView)
                     mBuilder?.show()
