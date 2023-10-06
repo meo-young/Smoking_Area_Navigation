@@ -10,7 +10,7 @@ class LoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MenuActivity::class.java)
         Handler().postDelayed({
             startActivity(intent)
             finish()

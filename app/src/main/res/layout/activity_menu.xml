@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuActivity">
+
+    <ImageView
+        android:id="@+id/main_ku"
+        android:layout_width="158.4dp"
+        android:layout_height="162.56dp"
+        android:src="@drawable/ku_shaped_ic"
+        android:layout_marginLeft="100.8dp"
+        android:layout_marginTop="79.45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <ImageView
+        android:layout_width="39dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="92.55dp"
+        android:layout_marginLeft="28.2dp"
+        android:src="@drawable/cigarette"
+        app:layout_constraintStart_toStartOf="@id/main_ku"
+        app:layout_constraintTop_toTopOf="@id/main_ku" />
+
+
+    <TextView
+        android:id="@+id/main_text_view"
+        android:layout_width="270dp"
+        android:layout_height="71dp"
+        android:layout_marginHorizontal="45dp"
+        android:layout_marginTop="29.99dp"
+        android:text="골라보라 KU"
+        android:textColor="@color/black"
+        android:textSize="48dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_ku" />
+
+    <View
+        android:id="@+id/find_view"
+        android:layout_width="327dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="58dp"
+        android:background="@drawable/light_gray_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_text_view" />
+
+    <TextView
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="28dp"
+        android:text="흡연 장소 길찾기"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:textColor="@color/light_blue"
+        app:layout_constraintStart_toStartOf="@+id/find_view"
+        app:layout_constraintTop_toTopOf="@+id/find_view" />
+
+    <ImageView
+        android:layout_width="19.64dp"
+        android:layout_height="24dp"
+        android:src="@drawable/black_pin_marker_ic"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="23dp"
+        app:layout_constraintEnd_toEndOf="@+id/find_view"
+        app:layout_constraintTop_toTopOf="@+id/find_view" />
+
+    <View
+        android:id="@+id/list_view"
+        android:layout_width="327dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/light_gray_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/find_view" />
+
+    <TextView
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="28dp"
+        android:text="흡연 부스 목록"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:textColor="@color/light_blue"
+        app:layout_constraintStart_toStartOf="@+id/list_view"
+        app:layout_constraintTop_toTopOf="@+id/list_view" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/default_smoking_area_ic"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="23dp"
+        app:layout_constraintEnd_toEndOf="@+id/list_view"
+        app:layout_constraintTop_toTopOf="@+id/list_view" />
+
+    <View
+        android:id="@+id/community_view"
+        android:layout_width="327dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/light_gray_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_view" />
+
+    <TextView
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="28dp"
+        android:text="커뮤니티"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:textColor="@color/light_blue"
+        app:layout_constraintStart_toStartOf="@+id/community_view"
+        app:layout_constraintTop_toTopOf="@+id/community_view" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/message_ic"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="23dp"
+        app:layout_constraintEnd_toEndOf="@+id/community_view"
+        app:layout_constraintTop_toTopOf="@+id/community_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

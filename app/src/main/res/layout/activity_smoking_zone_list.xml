@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SmokingZoneListActivity">
+
+    <ImageView
+        android:id="@+id/main_ku"
+        android:layout_width="83dp"
+        android:layout_height="63dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="27dp"
+        android:src="@drawable/ku_default_ic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:src="@drawable/cigarette"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintStart_toStartOf="@+id/main_ku"
+        app:layout_constraintTop_toTopOf="@+id/main_ku" />
+
+    <TextView
+        android:id="@+id/smokingZoneList"
+        android:layout_width="187dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="27dp"
+        android:text="흡연 부스 목록"
+        android:textColor="@color/light_blue"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_ku" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="24dp"
+        android:text="흡연 부스에 대한 의견을 자유롭게 적어주세요"
+        android:textColor="@color/light_blue"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/smokingZoneList" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
