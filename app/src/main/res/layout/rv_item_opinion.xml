@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="327dp"
+    android:layout_height="128dp"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/opinion_layout"
+    android:background="@drawable/light_gray_radius_25">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/anonymous_user_ic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <TextView
+        android:id="@+id/anonymous_user"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:text="익명n"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:textColor="@color/heavy_blue"
+        android:layout_marginTop="19dp"
+        android:layout_marginLeft="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/opinion"
+        android:layout_width="247dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="4dp"
+        android:text="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperia."
+        android:textSize="10dp"
+        android:textColor="@color/light_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/anonymous_user"></TextView>
+
+    <TextView
+        android:id="@+id/passed_days"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="10dp"
+        android:text="12 Days ago"
+        android:textSize="8dp"
+        android:textColor="@color/passed_days_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        ></TextView>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>
