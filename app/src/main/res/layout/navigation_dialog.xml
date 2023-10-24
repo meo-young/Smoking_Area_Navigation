@@ -89,6 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/smokingAreaImage" />
 
     <Button
+        android:id="@+id/guideBtn"
         android:layout_width="201.42dp"
         android:layout_height="40dp"
         app:layout_constraintStart_toEndOf="@+id/imageView"

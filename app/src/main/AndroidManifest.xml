@@ -15,6 +15,9 @@
         android:theme="@style/Theme.SmoKu"
         tools:targetApi="31">
         <activity
+            android:name=".SmokingZoneList_Clicked_Activity"
+            android:exported="false" />
+        <activity
             android:name=".SmokingZoneListActivity"
             android:exported="false" />
         <activity
