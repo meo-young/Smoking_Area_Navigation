@@ -15,6 +15,9 @@
         android:theme="@style/Theme.SmoKu"
         tools:targetApi="31">
         <activity
+            android:name=".WriteOpinionActivity"
+            android:exported="false" />
+        <activity
             android:name=".AllOpinionActivity"
             android:exported="false" />
         <activity
