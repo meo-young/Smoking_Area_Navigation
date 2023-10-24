@@ -11,7 +11,7 @@ class AllOpinionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_all_opinion)
 
         val getIntent = getIntent()
-        val items : ArrayList<OpinionRVModel> = getIntent.getSerializableExtra("OpinionList")
+        val items : ArrayList<OpinionRVModel> = getIntent.getSerializableExtra("OpinionList") as ArrayList<OpinionRVModel>
 
 
 
