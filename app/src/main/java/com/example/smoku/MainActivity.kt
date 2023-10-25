@@ -59,10 +59,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mapView = findViewById(R.id.map_view)
         mapView.onCreate(savedInstanceState)
 
-//        val coord = LatLng(37.54045835,127.06932036)
-//        Toast.makeText(this,
-//            "위도: ${coord.latitude}, 경도: ${coord.longitude}",
-//            Toast.LENGTH_SHORT).show()
 
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)

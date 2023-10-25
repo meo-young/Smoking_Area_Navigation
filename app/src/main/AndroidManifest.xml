@@ -15,6 +15,15 @@
         android:theme="@style/Theme.SmoKu"
         tools:targetApi="31">
         <activity
+            android:name=".CommunityViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WriteCommunityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CommunityActivity"
+            android:exported="false" />
+        <activity
             android:name=".WriteOpinionActivity"
             android:exported="false" />
         <activity

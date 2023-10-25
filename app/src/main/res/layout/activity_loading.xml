@@ -59,6 +59,7 @@
         android:layout_width="258dp"
         android:layout_height="356dp"
         android:layout_marginBottom="21dp"
+        android:layout_marginRight="16dp"
         android:src="@drawable/ku_standing_ic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"></ImageView>
@@ -68,7 +69,7 @@
         android:layout_height="28.57dp"
         android:src="@drawable/cigarette"
         android:layout_marginTop="144dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginLeft="85dp"
         app:layout_constraintStart_toStartOf="@+id/imageView5"
         app:layout_constraintTop_toTopOf="@+id/imageView5"></ImageView>
 
