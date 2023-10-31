@@ -79,7 +79,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/opinionBtn"
         android:layout_width="51dp"
         android:layout_height="42dp"
         android:layout_marginLeft="33dp"
@@ -92,7 +92,7 @@
         android:id="@+id/guideBtn"
         android:layout_width="201.42dp"
         android:layout_height="40dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/opinionBtn"
         app:layout_constraintTop_toBottomOf="@+id/smokingAreaImage"
         android:layout_marginLeft="18.26dp"
         android:layout_marginTop="20dp"

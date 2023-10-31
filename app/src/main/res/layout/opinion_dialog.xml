@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="339dp"
+    android:layout_height="532dp">
+
+    <View
+        android:id="@+id/labelBar"
+        android:layout_width="135dp"
+        android:layout_height="5dp"
+        android:layout_marginHorizontal="104dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/black_radius_100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></View>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginHorizontal="115.5dp"
+        android:layout_marginTop="10dp"
+        android:text="의견"
+        android:textAlignment="center"
+        android:textColor="@color/light_blue"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelBar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_opinion_rv"
+        android:layout_width="310dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/showOpinionBtn"
+        android:layout_width="310dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="25dp"
+        android:text="의견 더보기"
+        android:textSize="15dp"
+        android:textColor="@color/heavy_blue"
+        android:background="@drawable/light_gray_radius_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></Button>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

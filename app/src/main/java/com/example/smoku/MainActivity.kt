@@ -7,11 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -39,6 +44,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mAlertDialog: AlertDialog? = null
     private var mBuilder: AlertDialog.Builder? = null
     private var mDialogView: View? = null
+//    private var opinionBuilder: AlertDialog.Builder? = null
+    private var opinionDialogView: View? = null
+    private val path = PathOverlay()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +54,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_main)
 
         mDialogView = LayoutInflater.from(this).inflate(R.layout.navigation_dialog,null)
-        mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
+
+
+        opinionDialogView = LayoutInflater.from(this).inflate(R.layout.opinion_dialog,null)
+//        opinionBuilder = AlertDialog.Builder(this)
+//            .setView(opinionDialogView)
 
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map_view) as MapFragment?
@@ -135,25 +146,65 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         var bull_statue_latitude = 37.542749
         var bull_statue_longitude = 127.076197
 
+        var engineering_hall_latitude = 37.541490
+        var engineering_hall_longitude = 127.078981
 
-        conMapMarker(naverMap,"프론트홀",front_hall_latitude,front_hall_longitude)
-        conMapMarker(naverMap,"혁신관",innovation_hall_latitude,innovation_hall_longitude)
-        conMapMarker(naverMap,"협동관",cooperative_hall_latitude,cooperative_hall_longitude)
-        conMapMarker(naverMap,"도서관",library_latitude,library_longitude)
-        conMapMarker(naverMap,"예술디자인대학",artDesign_college_latitude,artDesign_college_longitude)
-        conMapMarker(naverMap,"문과대학",liberalArts_college_latitude,liberalArts_college_longitude)
-        conMapMarker(naverMap,"이과대학",science_college_latitude,science_college_longitude)
-        conMapMarker(naverMap,"황소동상",bull_statue_latitude,bull_statue_longitude)
+        var new_engineering_hall_latitude = 37.540503
+        var new_engineering_hall_longitude = 127.079287
+
+        var executive_official_hall_latitude = 37.543604
+        var executive_official_hall_longitude = 127.074972
+
+        var sangheo_hall_latitude = 37.543822
+        var sangheo_hall_longitude = 127.075768
+
+        var law_building_latitude = 37.541563
+        var law_building_longitude = 127.075599
+
+        var new_millennium_hall_latitude = 37.543295
+        var new_millennium_hall_longitude = 127.077583
+
+        var items = ArrayList<OpinionRVModel>()
+        items.add(OpinionRVModel(1,"흡연장이 너무 지저분해요..",3))
+        items.add(OpinionRVModel(2,"냄새가 너무 나요",14))
+        items.add(OpinionRVModel(3,"시험 빨리 끝났으면 ..",34))
+        items.add(OpinionRVModel(4,"밥 같이 먹을 사람 ??",45))
 
 
+//        val rvAdapter = OpinionRVAdapter(baseContext,items)
+//        val rv = findViewById<RecyclerView>(R.id.communityView_rv)
+//
+//        rv.adapter = rvAdapter
+//        rv.layoutManager = GridLayoutManager(this,1)
 
+
+        conMapMarker(naverMap,"프론트홀",front_hall_latitude,front_hall_longitude,R.drawable.front_hall_image)
+        conMapMarker(naverMap,"혁신관",innovation_hall_latitude,innovation_hall_longitude,R.drawable.innovation_hall_image)
+        conMapMarker(naverMap,"협동관",cooperative_hall_latitude,cooperative_hall_longitude,R.drawable.cooperative_hall_image)
+        conMapMarker(naverMap,"도서관",library_latitude,library_longitude,R.drawable.library_image)
+        conMapMarker(naverMap,"예술디자인대학",artDesign_college_latitude,artDesign_college_longitude,R.drawable.artdesign_college_image)
+        conMapMarker(naverMap,"문과대학",liberalArts_college_latitude,liberalArts_college_longitude,R.drawable.liberalarts_college_image)
+        conMapMarker(naverMap,"이과대학",science_college_latitude,science_college_longitude,R.drawable.science_college_image)
+        conMapMarker(naverMap,"황소동상",bull_statue_latitude,bull_statue_longitude,R.drawable.bull_statue_image)
+        conMapMarker(naverMap,"공학관",engineering_hall_latitude,engineering_hall_longitude,R.drawable.engineering_hall_image)
+        conMapMarker(naverMap,"신공학관",new_engineering_hall_latitude,new_engineering_hall_longitude,R.drawable.new_engineering_hall_image)
+        conMapMarker(naverMap,"행정관",executive_official_hall_latitude,executive_official_hall_longitude,R.drawable.executive_official_hall_image)
+        conMapMarker(naverMap,"상허관",sangheo_hall_latitude,sangheo_hall_longitude,R.drawable.sangheo_hall_image)
+        conMapMarker(naverMap,"법학관",law_building_latitude,law_building_longitude,R.drawable.law_building_image)
+        conMapMarker(naverMap,"새천년관",new_millennium_hall_latitude,new_millennium_hall_longitude,R.drawable.new_millennium_hall_image)
+
+
+        val database = Firebase.database
+        val myRef = database.getReference("message")
+
+        myRef.setValue("Hello World")
 
 
     }
 
 
 
-    fun conMapMarker(naverMap: NaverMap, captionText: String, latitude: Double, longitude : Double){
+    fun conMapMarker(naverMap: NaverMap, captionText: String, latitude: Double, longitude : Double, image : Int){
         val APIKEY_ID = "l0z6ze1vzh"
         val APIKEY = "fdbh98Cx8SlZcvWJOVCoBxvgSjpC8HE867DlaPRh"
         //레트로핏 객체 생성
@@ -178,14 +229,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         marker.captionText = captionText
         marker.setOnClickListener {
 
-            if (marker.infoWindow == null) {
+
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
-                infoWindow.open(marker)
-                infoWindow.setOnClickListener {
+
+                marker.setOnClickListener {
+                    mBuilder = AlertDialog.Builder(this)
+                        .setView(mDialogView)
                     val ad = mBuilder?.create()
                     //ad?.window?.setDimAmount(0F)
 
                     var guideBtn = mDialogView?.findViewById<Button>(R.id.guideBtn)
+                    var opinionBtn = mDialogView?.findViewById<ImageView>(R.id.opinionBtn)
 
                     guideBtn?.setOnClickListener {
                         val callgetPath = api.getPath(APIKEY_ID, APIKEY,"127.078426,37.539314", "$longitude,$latitude")
@@ -197,10 +251,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                             ) {
                                 val path_cords_list = response.body()?.route?.traoptimal
                                 //경로 그리기 응답바디가 List<List<Double>> 이라서 2중 for문 썼음
-                                val path = PathOverlay()
+                                path.setMap(null)
                                 val fArray = floatArrayOf(122F,56.6F,68.6F)
                                 path.outlineWidth = 0
-                                path.width = 5
+                                path.width = 10
                                 path.color = Color.HSVToColor(fArray)
                                 //MutableList에 add 기능 쓰기 위해 더미 원소 하나 넣어둠
                                 val path_container: MutableList<LatLng>? = mutableListOf(LatLng(0.1, 0.1))
@@ -230,20 +284,27 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                         ad?.dismiss()
 
                     }
+                    opinionBtn?.setOnClickListener {
+                        ad?.dismiss()
+                        (mDialogView?.parent as ViewGroup).removeView(mDialogView)
+                        mBuilder?.setView(opinionDialogView)?.show()
+                    }
                     if (mDialogView?.parent != null) {
                         (mDialogView?.parent as ViewGroup).removeView(mDialogView)
                     }
+                    if (opinionDialogView?.parent != null) {
+                        (opinionDialogView?.parent as ViewGroup).removeView(opinionDialogView)
+                    }
                     val smokingZone = mDialogView?.findViewById<TextView>(R.id.smokingAreaLabel)
                     smokingZone?.setText(captionText)
+                    val smokingZoneImage = mDialogView?.findViewById<ImageView>(R.id.smokingAreaImage)
+                    smokingZoneImage?.setImageResource(image)
                     mBuilder?.setView(mDialogView)
                     ad?.show()
                     true
                 }
 
-            } else {
-                // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
-                infoWindow.close()
-            }
+
             true
         }
     }

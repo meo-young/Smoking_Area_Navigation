@@ -22,6 +22,13 @@ class SmokingZoneListActivity : AppCompatActivity() {
         items.add(RVModel("도서관",R.drawable.library_image))
         items.add(RVModel("예술디자인대학",R.drawable.artdesign_college_image))
         items.add(RVModel("협동관",R.drawable.cooperative_hall_image))
+        items.add(RVModel("공학관",R.drawable.engineering_hall_image))
+        items.add(RVModel("신공학관",R.drawable.new_engineering_hall_image))
+        items.add(RVModel("행정관",R.drawable.executive_official_hall_image))
+        items.add(RVModel("상허관",R.drawable.sangheo_hall_image))
+        items.add(RVModel("법학관",R.drawable.law_building_image))
+        items.add(RVModel("새천년관",R.drawable.new_millennium_hall_image))
+
 
 
         val rv = findViewById<RecyclerView>(R.id.smokingZoneList)

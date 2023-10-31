@@ -13,7 +13,7 @@ class WriteCommunityActivity : AppCompatActivity() {
         val intent = Intent(this, CommunityActivity::class.java)
 
         findViewById<Button>(R.id.completeBtn).setOnClickListener {
-            startActivity(intent)
+            finish()
         }
     }
 }

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "446115596557",
+    "firebase_url": "https://smoku-691b9-default-rtdb.firebaseio.com",
+    "project_id": "smoku-691b9",
+    "storage_bucket": "smoku-691b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446115596557:android:29a1776d26b9b45f210844",
+        "android_client_info": {
+          "package_name": "com.example.smoku"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVi1EYUmH4AZUBQYn6CSq3DN9qB9heNAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
