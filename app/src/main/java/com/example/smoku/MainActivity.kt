@@ -1,6 +1,5 @@
 package com.example.smoku
 
-import android.R.attr.key
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +12,6 @@ import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -194,10 +189,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         conMapMarker(naverMap,"새천년관",new_millennium_hall_latitude,new_millennium_hall_longitude,R.drawable.new_millennium_hall_image)
 
 
-        val database = Firebase.database
-        val myRef = database.getReference("message")
 
-        myRef.setValue("Hello World")
 
 
     }

@@ -1,14 +1,17 @@
 package com.example.smoku
 
-import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
+import java.time.LocalDate
 
 class WriteOpinionActivity : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_opinion)
@@ -18,11 +21,11 @@ class WriteOpinionActivity : AppCompatActivity() {
 
         val database = Firebase.database
         val myRef = database.getReference("opinion")
-        val intent = Intent(this, AllOpinionActivity::class.java)
-
+        val opinion_model = ArrayList<OpinionRVModel>()
         comBtn.setOnClickListener {
-            val message = opinion.text.toString()
-            myRef.setValue(message)
+            val onlyDate: LocalDate = LocalDate.now()
+            opinion_model.add(OpinionRVModel(1,opinion.text.toString(),3))
+            myRef.push().setValue(opinion_model)
             finish()
         }
 
