@@ -1,7 +1,9 @@
 package com.example.smoku
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,13 @@ import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -206,12 +215,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         build()
         val api = retrofit.create(NaverAPI::class.java)
 
-        val infoWindow = InfoWindow()
-        infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(baseContext) {
-            override fun getText(infoWindow: InfoWindow): CharSequence {
-                return "열기"
-            }
-        }
+
 
 
         val marker = Marker()
@@ -277,6 +281,40 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     }
                     opinionBtn?.setOnClickListener {
+                        val moreOpinionBtn = opinionDialogView?.findViewById<Button>(R.id.showOpinionBtn)
+
+                        moreOpinionBtn?.setOnClickListener {
+                            val opinionIntent = Intent(this, AllOpinionActivity::class.java)
+                            opinionIntent.putExtra("smokingZoneTitle",captionText)
+                            startActivity(opinionIntent)
+                        }
+                        val items = ArrayList<OpinionRVModel>()
+
+                        val rv = opinionDialogView?.findViewById<RecyclerView>(R.id.main_opinion_rv)
+                        val rvAdapter = OpinionRVAdapter(baseContext,items)
+
+                        rv?.adapter = rvAdapter
+                        rv?.layoutManager = GridLayoutManager(this,1)
+
+                        val database = Firebase.database
+                        val myRef = database.getReference(captionText)
+
+                        myRef.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for (dataModel in snapshot.children){
+                                    Log.d("dataopinion",dataModel.toString())
+                                    items.add(dataModel.getValue(OpinionRVModel::class.java)!!)
+                                }
+                                rvAdapter.notifyDataSetChanged()
+                                Log.d("datamodelopinion",items.toString())
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+
+                        })
+                        Log.d("check",captionText)
                         ad?.dismiss()
                         (mDialogView?.parent as ViewGroup).removeView(mDialogView)
                         mBuilder?.setView(opinionDialogView)?.show()

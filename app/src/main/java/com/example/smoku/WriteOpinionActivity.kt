@@ -16,16 +16,20 @@ class WriteOpinionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_opinion)
 
+        val getIntent = getIntent()
+        val title = getIntent.getStringExtra("smokingZoneTitle")
+
+
         val opinion = findViewById<EditText>(R.id.opinionArea)
         val comBtn = findViewById<Button>(R.id.completeBtn)
 
         val database = Firebase.database
-        val myRef = database.getReference("opinion")
-        val opinion_model = ArrayList<OpinionRVModel>()
+        val myRef = database.getReference(title.toString())
+
 
         comBtn.setOnClickListener {
             //val onlyDate: LocalDate = LocalDate.now()
-            opinion_model.add(OpinionRVModel(1,opinion.text.toString(),3))
+            val opinion_model = OpinionRVModel(1,opinion.text.toString(),3)
             myRef.push().setValue(opinion_model)
             finish()
         }
