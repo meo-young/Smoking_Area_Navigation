@@ -116,17 +116,25 @@
 
 
 
-    <View
-        android:id="@+id/writeComment"
+
+
+
+
+    <EditText
+        android:id="@+id/comment"
+        android:gravity="center"
         android:layout_width="327dp"
         android:layout_height="32dp"
-        android:background="@drawable/light_gray_radius_25"
         android:layout_marginBottom="45dp"
+        android:hint="댓글을 입력하세요."
+        android:textColorHint="@color/heavy_blue"
+        android:textSize="10dp"
+        android:background="@drawable/light_gray_radius_25"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></View>
-
+        app:layout_constraintStart_toStartOf="parent"></EditText>
     <ImageView
+        android:id="@+id/inputBtn"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/message_ic"
@@ -134,17 +142,4 @@
         android:layout_marginRight="54dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"></ImageView>
-
-    <TextView
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginBottom="45dp"
-        android:text="댓글을 입력하세요."
-        android:textColor="@color/heavy_blue"
-        android:textSize="10dp"
-        android:background="@color/light_gray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>

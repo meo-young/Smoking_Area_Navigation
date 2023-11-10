@@ -28,8 +28,10 @@ class WriteOpinionActivity : AppCompatActivity() {
 
 
         comBtn.setOnClickListener {
-            //val onlyDate: LocalDate = LocalDate.now()
-            val opinion_model = OpinionRVModel(1,opinion.text.toString(),3)
+            val currentDate = LocalDate.now()
+            val month = currentDate.month.value // 월 (1부터 12까지)
+            val day = currentDate.dayOfMonth
+            val opinion_model = OpinionRVModel(1,opinion.text.toString(),month.toString()+"/"+day.toString())
             myRef.push().setValue(opinion_model)
             finish()
         }

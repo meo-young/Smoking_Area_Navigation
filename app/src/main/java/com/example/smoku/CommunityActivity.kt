@@ -19,6 +19,9 @@ class CommunityActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community)
 
+        val dataKeys = mutableListOf<String>()
+
+
         val items = mutableListOf<CommunityRVModel>()
 
         val rv = findViewById<RecyclerView>(R.id.community_rv)
@@ -34,7 +37,9 @@ class CommunityActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (dataModel in snapshot.children){
                     Log.d("data2",dataModel.toString())
+                    Log.d("key",dataModel.key.toString())
                     items.add(dataModel.getValue(CommunityRVModel::class.java)!!)
+                    dataKeys.add(dataModel.key.toString())
                 }
                 rvAdapter.notifyDataSetChanged()
                 Log.d("datamodel",items.toString())
@@ -55,13 +60,17 @@ class CommunityActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
         val intent2communityView = Intent(this, CommunityViewActivity::class.java)
 
         rvAdapter.itemClick = object : CommunityRVAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-
+                if(!dataKeys.isEmpty()){
+                    intent2communityView.putExtra("communityKey",dataKeys[position])
+                    Log.d("keys",dataKeys[position])
+                }
+                intent2communityView.putExtra("communityTitle",items[position].title)
+                intent2communityView.putExtra("communityText",items[position].textArea)
+                intent2communityView.putExtra("communityDays",items[position].passed_days)
                 startActivity(intent2communityView)
             }
         }

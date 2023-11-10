@@ -169,10 +169,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         var new_millennium_hall_longitude = 127.077583
 
         var items = ArrayList<OpinionRVModel>()
-        items.add(OpinionRVModel(1,"흡연장이 너무 지저분해요..",3))
-        items.add(OpinionRVModel(2,"냄새가 너무 나요",14))
-        items.add(OpinionRVModel(3,"시험 빨리 끝났으면 ..",34))
-        items.add(OpinionRVModel(4,"밥 같이 먹을 사람 ??",45))
+
 
 
 //        val rvAdapter = OpinionRVAdapter(baseContext,items)

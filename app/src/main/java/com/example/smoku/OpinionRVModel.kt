@@ -6,5 +6,5 @@ import java.time.LocalDate
 data class OpinionRVModel(
     var anonymous_user_count: Int =  0,
     var textArea: String = "",
-    var passed_days: Int = 0
+    var passed_days: String = ""
 )

@@ -40,7 +40,7 @@ class OpinionRVAdapter (val context:Context, val items: MutableList<OpinionRVMod
             val rv_opinion_area = itemView.findViewById<TextView>(R.id.opinion)
             rv_opinion_area.text = item.textArea
             val rv_passed_days = itemView.findViewById<TextView>(R.id.passed_days)
-            rv_passed_days.text = Integer.toString(item.passed_days) + " Days ago"
+            rv_passed_days.text = item.passed_days
 
 
         }

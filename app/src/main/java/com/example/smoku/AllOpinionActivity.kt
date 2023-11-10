@@ -40,6 +40,7 @@ class AllOpinionActivity : AppCompatActivity() {
                 for (dataModel in snapshot.children){
                     Log.d("data2",dataModel.toString())
                     items.add(dataModel.getValue(OpinionRVModel::class.java)!!)
+                    Log.d("datakey",dataModel.key.toString())
                 }
                 rvAdapter.notifyDataSetChanged()
                 Log.d("datamodel",items.toString())
