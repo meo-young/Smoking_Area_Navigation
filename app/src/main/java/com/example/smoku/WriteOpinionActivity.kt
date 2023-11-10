@@ -22,8 +22,9 @@ class WriteOpinionActivity : AppCompatActivity() {
         val database = Firebase.database
         val myRef = database.getReference("opinion")
         val opinion_model = ArrayList<OpinionRVModel>()
+
         comBtn.setOnClickListener {
-            val onlyDate: LocalDate = LocalDate.now()
+            //val onlyDate: LocalDate = LocalDate.now()
             opinion_model.add(OpinionRVModel(1,opinion.text.toString(),3))
             myRef.push().setValue(opinion_model)
             finish()

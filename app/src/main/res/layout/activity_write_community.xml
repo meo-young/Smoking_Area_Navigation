@@ -39,6 +39,7 @@
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <EditText
+        android:id="@+id/title"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:hint="제목"

@@ -59,6 +59,7 @@
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <TextView
+        android:id="@+id/passed_days"
         android:layout_width="149dp"
         android:layout_height="wrap_content"
         android:text="09/26 16:53"
@@ -70,6 +71,7 @@
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <TextView
+        android:id="@+id/community_title"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
         android:text="공학관 흡연장 ㄹㅈㄷ"
@@ -82,7 +84,7 @@
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/community_textArea"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="19dp"

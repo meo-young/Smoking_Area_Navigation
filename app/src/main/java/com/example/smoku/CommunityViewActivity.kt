@@ -17,32 +17,37 @@ class CommunityViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community_view)
 
-        val database = Firebase.database
-        val myRef = database.getReference("opinion")
-        var items = ArrayList<OpinionRVModel>()
-        myRef.addValueEventListener(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
+//        var items = mutableListOf<CommunityRVModel>()
+//
+//        val rv = findViewById<RecyclerView>(R.id.communityView_rv)
+//        val rvAdapter = CommunityRVAdapter(baseContext,items)
+//
+//        rv.adapter = rvAdapter
+//        rv.layoutManager = GridLayoutManager(this,1)
+//
+//
+//        val database = Firebase.database
+//        val myRef = database.getReference("community")
+//
+//        myRef.addValueEventListener(object : ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                for (dataModel in snapshot.children){
+//                    Log.d("data2",dataModel.toString())
+//                    items.add(dataModel.getValue(CommunityRVModel::class.java)!!)
+//                }
+//                rvAdapter.notifyDataSetChanged()
+//                Log.d("datamodel",items.toString())
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
 
-                for (dataModel in snapshot.children){
-//                    val auc = Integer.parseInt(dataModel.child("anonymous_user_count").getValue().toString())
-//                    val textArea = dataModel.child("textArea").getValue().toString()
-//                    val passed_days = Integer.parseInt(dataModel.child("passed_days").getValue().toString())
-                    Log.e("data",dataModel.getValue().toString())
-                    val item = dataModel.getValue(OpinionRVModel::class.java)!!
-                }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
 
-        })
 
-        val rv = findViewById<RecyclerView>(R.id.communityView_rv)
-        val rvAdapter = OpinionRVAdapter(baseContext,items)
-
-        rv.adapter = rvAdapter
-        rv.layoutManager = GridLayoutManager(this,1)
 
 
     }
