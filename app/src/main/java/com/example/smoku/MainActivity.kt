@@ -1,7 +1,13 @@
 package com.example.smoku
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +20,8 @@ import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
@@ -24,12 +32,14 @@ import com.google.firebase.database.database
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.LocationSource
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.InfoWindow
+import com.naver.maps.map.overlay.LocationOverlay
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
@@ -39,6 +49,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -48,21 +59,38 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mAlertDialog: AlertDialog? = null
     private var mBuilder: AlertDialog.Builder? = null
     private var mDialogView: View? = null
-//    private var opinionBuilder: AlertDialog.Builder? = null
     private var opinionDialogView: View? = null
     private val path = PathOverlay()
+    private lateinit var locationManager: LocationManager
+    private var userLatitude = 0.0
+    private var userLongitude = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        // 위치 권한이 있는지 확인
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // 권한이 없으면 권한 요청
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+        } else {
+            // 권한이 있으면 현재 위치 가져오기
+            getLocation()
+        }
+
         mDialogView = LayoutInflater.from(this).inflate(R.layout.navigation_dialog,null)
-
-
         opinionDialogView = LayoutInflater.from(this).inflate(R.layout.opinion_dialog,null)
-//        opinionBuilder = AlertDialog.Builder(this)
-//            .setView(opinionDialogView)
 
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map_view) as MapFragment?
@@ -70,17 +98,56 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 fm.beginTransaction().add(R.id.map_view, it).commit()
             }
 
-
         mapView = findViewById(R.id.map_view)
         mapView.onCreate(savedInstanceState)
 
-
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
-
         mapFragment.getMapAsync(this)
+    }
 
+    private fun getLocation() {
+        // 위치 업데이트를 받을 리스너 설정
+        val locationListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                // 위치가 변경되면 호출되는 메서드
+                userLatitude = location.latitude
+                userLongitude = location.longitude
 
+                // 여기에서 위도와 경도를 사용할 수 있습니다.
+                // 예를 들어, 토스트 메시지로 출력
+                Toast.makeText(
+                    baseContext,
+                    userLatitude.toString() + "," + userLongitude.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        // 위치 업데이트 요청
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        locationManager.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER,
+            1000,  // 1초마다 또는 1000ms 간격으로 위치 업데이트
+            1f,    // 1미터 이상의 이동이 있을 때마다
+            locationListener
+        )
     }
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
@@ -102,6 +169,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
+
         //안내시작 창에 대한 정보 불러오기
 
         this.naverMap = naverMap
@@ -118,12 +186,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         //사용자의 위치에 대한 오버레이
         val locationOverlay = naverMap.locationOverlay
         locationOverlay.isVisible = true
-        locationOverlay.position = LatLng(37.539734,127.077744)
         locationOverlay.icon = OverlayImage.fromResource(R.drawable.user_state_ic)
 
+
+
         //카메라의 초기위치 설정
-        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.539734,127.077744))
-        naverMap.moveCamera(cameraUpdate)
+//        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.539734,127.077744))
+//        naverMap.moveCamera(cameraUpdate)
 
 
         var front_hall_latitude = 37.539314
@@ -168,16 +237,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         var new_millennium_hall_latitude = 37.543295
         var new_millennium_hall_longitude = 127.077583
 
-        var items = ArrayList<OpinionRVModel>()
-
-
-
-//        val rvAdapter = OpinionRVAdapter(baseContext,items)
-//        val rv = findViewById<RecyclerView>(R.id.communityView_rv)
-//
-//        rv.adapter = rvAdapter
-//        rv.layoutManager = GridLayoutManager(this,1)
-
 
         conMapMarker(naverMap,"프론트홀",front_hall_latitude,front_hall_longitude,R.drawable.front_hall_image)
         conMapMarker(naverMap,"혁신관",innovation_hall_latitude,innovation_hall_longitude,R.drawable.innovation_hall_image)
@@ -193,10 +252,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         conMapMarker(naverMap,"상허관",sangheo_hall_latitude,sangheo_hall_longitude,R.drawable.sangheo_hall_image)
         conMapMarker(naverMap,"법학관",law_building_latitude,law_building_longitude,R.drawable.law_building_image)
         conMapMarker(naverMap,"새천년관",new_millennium_hall_latitude,new_millennium_hall_longitude,R.drawable.new_millennium_hall_image)
-
-
-
-
 
     }
 
@@ -215,16 +270,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
+
         val marker = Marker()
         marker.position = LatLng(latitude,longitude)
         marker.map = naverMap
         marker.icon = OverlayImage.fromResource(R.drawable.default_smoking_area_ic)
         marker.captionText = captionText
         marker.setOnClickListener {
-
-
-                // 현재 마커에 정보 창이 열려있지 않을 경우 엶
-
                 marker.setOnClickListener {
                     mBuilder = AlertDialog.Builder(this)
                         .setView(mDialogView)
@@ -235,7 +287,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     var opinionBtn = mDialogView?.findViewById<ImageView>(R.id.opinionBtn)
 
                     guideBtn?.setOnClickListener {
-                        val callgetPath = api.getPath(APIKEY_ID, APIKEY,"127.078426,37.539314", "$longitude,$latitude")
+                        val callgetPath = api.getPath(APIKEY_ID, APIKEY,userLongitude.toString()+","+userLatitude.toString(), "$longitude,$latitude")
 
                         callgetPath.enqueue(object : Callback<ResultPath> {
                             override fun onResponse(
@@ -335,7 +387,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             true
         }
     }
-
 
 
 
