@@ -50,6 +50,7 @@ allprojects {
 }
 
 dependencies {
+
     implementation(platform("com.google.firebase:firebase-bom:32.4.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-database-ktx")

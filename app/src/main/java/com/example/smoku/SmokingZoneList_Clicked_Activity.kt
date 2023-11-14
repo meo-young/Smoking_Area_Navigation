@@ -39,6 +39,7 @@ class SmokingZoneList_Clicked_Activity : AppCompatActivity() {
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                items.clear()
                 for (dataModel in snapshot.children){
                     Log.d("data2",dataModel.toString())
                     items.add(dataModel.getValue(OpinionRVModel::class.java)!!)

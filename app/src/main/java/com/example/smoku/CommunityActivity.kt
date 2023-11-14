@@ -35,6 +35,7 @@ class CommunityActivity : AppCompatActivity() {
 
         myRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                items.clear()
                 for (dataModel in snapshot.children){
                     Log.d("data2",dataModel.toString())
                     Log.d("key",dataModel.key.toString())

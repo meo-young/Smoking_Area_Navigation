@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         // 위치 권한이 있는지 확인
@@ -86,6 +88,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             )
         } else {
             // 권한이 있으면 현재 위치 가져오기
+//            Toast.makeText(
+//                baseContext,
+//                "1단계",
+//                Toast.LENGTH_SHORT
+//            ).show()
             getLocation()
         }
 
@@ -107,6 +114,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun getLocation() {
+
         // 위치 업데이트를 받을 리스너 설정
         val locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
@@ -121,6 +129,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     userLatitude.toString() + "," + userLongitude.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
+                Log.d("location",userLatitude.toString()+","+userLongitude.toString())
+
             }
         }
 
@@ -176,7 +186,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         naverMap.mapType = NaverMap.MapType.Basic
         naverMap.isIndoorEnabled = true
         naverMap.locationSource = locationSource
+        Log.d("sour",naverMap.locationSource.toString())
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
+        naverMap.addOnLocationChangeListener { location ->
+            userLatitude = location.latitude
+            userLongitude = location.longitude
+
+            // 여기에서 위도(latitude)와 경도(longitude)를 사용할 수 있습니다.
+            // 예: Log.d("Location", "Latitude: $latitude, Longitude: $longitude")
+        }
 
 
         //현재위치확인에 대한 버튼 활성화
