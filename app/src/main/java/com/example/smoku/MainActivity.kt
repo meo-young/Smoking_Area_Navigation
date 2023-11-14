@@ -64,6 +64,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationManager: LocationManager
     private var userLatitude = 0.0
     private var userLongitude = 0.0
+    private var deslat = 0.0
+    private var deslon = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,29 +74,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        // 위치 권한이 있는지 확인
-        if (ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // 권한이 없으면 권한 요청
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                1
-            )
-        } else {
-            // 권한이 있으면 현재 위치 가져오기
-//            Toast.makeText(
-//                baseContext,
-//                "1단계",
-//                Toast.LENGTH_SHORT
-//            ).show()
-            getLocation()
-        }
 
         mDialogView = LayoutInflater.from(this).inflate(R.layout.navigation_dialog,null)
         opinionDialogView = LayoutInflater.from(this).inflate(R.layout.opinion_dialog,null)
@@ -113,68 +93,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
-    private fun getLocation() {
 
-        // 위치 업데이트를 받을 리스너 설정
-        val locationListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                // 위치가 변경되면 호출되는 메서드
-                userLatitude = location.latitude
-                userLongitude = location.longitude
-
-                // 여기에서 위도와 경도를 사용할 수 있습니다.
-                // 예를 들어, 토스트 메시지로 출력
-                Toast.makeText(
-                    baseContext,
-                    userLatitude.toString() + "," + userLongitude.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
-                Log.d("location",userLatitude.toString()+","+userLongitude.toString())
-
-            }
-        }
-
-        // 위치 업데이트 요청
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            1000,  // 1초마다 또는 1000ms 간격으로 위치 업데이트
-            1f,    // 1미터 이상의 이동이 있을 때마다
-            locationListener
-        )
-    }
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
-        if (locationSource.onRequestPermissionsResult(requestCode, permissions,
-                grantResults)) {
-            if (!locationSource.isActivated) { // 권한 거부됨
-                naverMap.locationTrackingMode = LocationTrackingMode.None
-            }
-            return
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
 
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+    }
+
+    fun DegreeToRadian(degree:Double): Double {
+        return degree * Math.PI / 180.0
+    }
+
+    fun RadianToDegree(radian : Double): Double {
+        return radian * 180.0 / Math.PI
     }
 
     @UiThread
@@ -191,10 +122,29 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         naverMap.addOnLocationChangeListener { location ->
             userLatitude = location.latitude
             userLongitude = location.longitude
+            Log.d("minus", (userLatitude-deslat).toString())
 
+            var theta = 0.0
+            var dist = 0.0
+            theta = userLongitude - deslon
+            dist = Math.sin(DegreeToRadian(userLatitude))*Math.sin(DegreeToRadian(deslat))+Math.cos(DegreeToRadian(userLatitude))*Math.cos(DegreeToRadian(deslat))*Math.cos(DegreeToRadian(theta))
             // 여기에서 위도(latitude)와 경도(longitude)를 사용할 수 있습니다.
             // 예: Log.d("Location", "Latitude: $latitude, Longitude: $longitude")
+            dist = Math.acos(dist)
+            dist = RadianToDegree(dist)
+
+            dist = dist * 60 * 1.1515
+            dist = dist * 1.609344
+            dist = dist * 1000
+
+
+            Log.d("dist",dist.toString())
+            if(dist < 10){
+                val intent2Result = Intent(this, ResultActivity::class.java)
+                startActivity(intent2Result)
+            }
         }
+
 
 
         //현재위치확인에 대한 버튼 활성화
@@ -306,7 +256,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     guideBtn?.setOnClickListener {
                         val callgetPath = api.getPath(APIKEY_ID, APIKEY,userLongitude.toString()+","+userLatitude.toString(), "$longitude,$latitude")
-
                         callgetPath.enqueue(object : Callback<ResultPath> {
                             override fun onResponse(
                                 call: Call<ResultPath>,
@@ -325,10 +274,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                                     for (path_cords_xy in path_cords.path) {
                                         //구한 경로를 하나씩 path_container에 추가해줌
                                         path_container?.add(LatLng(path_cords_xy[1], path_cords_xy[0]))
+                                        deslat = path_cords_xy[1]
+                                        deslon = path_cords_xy[0]
+
                                     }
                                 }
+                                Log.d("dis",deslat.toString()+","+deslon.toString())
+
                                 //더미원소 드랍후 path.coords에 path들을 넣어줌.
-                                path.coords = path_container?.drop(1)!!
+
+                                    path.coords = path_container?.drop(1)!!
                                 path.map = naverMap
                                 //경로 시작점으로 화면 이동
                                 if (path.coords != null) {
@@ -368,6 +323,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         myRef.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                items.clear()
                                 for (dataModel in snapshot.children){
                                     Log.d("dataopinion",dataModel.toString())
                                     items.add(dataModel.getValue(OpinionRVModel::class.java)!!)
