@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
@@ -29,14 +30,24 @@ class WriteCommunityActivity : AppCompatActivity() {
 
 
         comBtn.setOnClickListener {
-            val currentDate = LocalDate.now()
-            val month = currentDate.month.value // 월 (1부터 12까지)
-            val day = currentDate.dayOfMonth
             val message = opinion.text.toString()
             val getTitle = title.text.toString()
-            val communityModel = CommunityRVModel(getTitle,message,month.toString()+"/"+day.toString())
-            myRef.push().setValue(communityModel)
-            finish()
+            if(message.isEmpty()){
+                Toast.makeText(baseContext, "글을 작성해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                if(getTitle.isEmpty()){
+                    Toast.makeText(baseContext, "제목을 작성해주세요", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val currentDate = LocalDate.now()
+                    val month = currentDate.month.value // 월 (1부터 12까지)
+                    val day = currentDate.dayOfMonth
+                    val communityModel = CommunityRVModel(getTitle,message,month.toString()+"/"+day.toString())
+                    myRef.push().setValue(communityModel)
+                    finish()
+                }
+            }
         }
     }
 }

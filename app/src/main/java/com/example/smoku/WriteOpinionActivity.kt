@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
@@ -28,12 +29,17 @@ class WriteOpinionActivity : AppCompatActivity() {
 
 
         comBtn.setOnClickListener {
-            val currentDate = LocalDate.now()
-            val month = currentDate.month.value // 월 (1부터 12까지)
-            val day = currentDate.dayOfMonth
-            val opinion_model = OpinionRVModel(1,opinion.text.toString(),month.toString()+"/"+day.toString())
-            myRef.push().setValue(opinion_model)
-            finish()
+            if(opinion.text.toString().isEmpty()){
+                Toast.makeText(baseContext, "글을 작성해주세요.", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val currentDate = LocalDate.now()
+                val month = currentDate.month.value // 월 (1부터 12까지)
+                val day = currentDate.dayOfMonth
+                val opinion_model = OpinionRVModel(1,opinion.text.toString(),month.toString()+"/"+day.toString())
+                myRef.push().setValue(opinion_model)
+                finish()
+            }
         }
 
 

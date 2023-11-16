@@ -139,8 +139,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
             Log.d("dist",dist.toString())
-            if(dist < 10){
+            if(dist < 50){
                 val intent2Result = Intent(this, ResultActivity::class.java)
+                deslon =0.0
+                deslat =0.0
+                path.map = null
                 startActivity(intent2Result)
             }
         }
@@ -283,7 +286,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                 //더미원소 드랍후 path.coords에 path들을 넣어줌.
 
-                                    path.coords = path_container?.drop(1)!!
+                                path.coords = path_container?.drop(1)!!
                                 path.map = naverMap
                                 //경로 시작점으로 화면 이동
                                 if (path.coords != null) {

@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -69,12 +70,17 @@ class CommunityViewActivity : AppCompatActivity() {
         val inputBtn = findViewById<ImageView>(R.id.inputBtn)
 
         inputBtn.setOnClickListener{
-            val currentDate = LocalDate.now()
-            val month = currentDate.month.value // 월 (1부터 12까지)
-            val day = currentDate.dayOfMonth
             val input = comment.text.toString()
-            val opinion_model = OpinionRVModel(1,input,month.toString()+"/"+day.toString())
-            myRef.push().setValue(opinion_model)
+            if(input.isEmpty()){
+                Toast.makeText(baseContext, "글을 작성해주세요.", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val currentDate = LocalDate.now()
+                val month = currentDate.month.value // 월 (1부터 12까지)
+                val day = currentDate.dayOfMonth
+                val opinion_model = OpinionRVModel(1,input,month.toString()+"/"+day.toString())
+                myRef.push().setValue(opinion_model)
+            }
         }
 
 

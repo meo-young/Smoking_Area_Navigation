@@ -36,7 +36,7 @@ class OpinionRVAdapter (val context:Context, val items: MutableList<OpinionRVMod
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         fun bindItems(item : OpinionRVModel){
             val rv_count = itemView.findViewById<TextView>(R.id.anonymous_user)
-            rv_count.text = "익명" + Integer.toString(item.anonymous_user_count)
+            rv_count.text = "익명"
             val rv_opinion_area = itemView.findViewById<TextView>(R.id.opinion)
             rv_opinion_area.text = item.textArea
             val rv_passed_days = itemView.findViewById<TextView>(R.id.passed_days)
