@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mBuilder: AlertDialog.Builder? = null
     private var mDialogView: View? = null
     private var opinionDialogView: View? = null
+    private var arDialogView: View? = null
     private val path = PathOverlay()
     private lateinit var locationManager: LocationManager
     private var userLatitude = 0.0
@@ -73,12 +74,27 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_main)
 
 
-
+        findViewById<ImageView>(R.id.camera).setOnClickListener {
+            mBuilder = AlertDialog.Builder(this)
+                .setView(arDialogView)
+            val ad = mBuilder?.create()
+            if (arDialogView?.parent != null) {
+                (arDialogView?.parent as ViewGroup).removeView(arDialogView)
+            }
+            ad?.show()
+            findViewById<ImageView>(R.id.camera).setImageResource(R.drawable.camera_ic)
+            arDialogView?.findViewById<Button>(R.id.backBtn)?.setOnClickListener {
+                ad?.dismiss()
+            }
+            ad?.setOnDismissListener {
+                findViewById<ImageView>(R.id.camera).setImageResource(R.drawable.gray_camera_ic)
+            }
+        }
 
 
         mDialogView = LayoutInflater.from(this).inflate(R.layout.navigation_dialog,null)
         opinionDialogView = LayoutInflater.from(this).inflate(R.layout.opinion_dialog,null)
-
+        arDialogView = LayoutInflater.from(this).inflate(R.layout.ar_dialog,null)
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map_view) as MapFragment?
             ?: MapFragment.newInstance().also {

@@ -11,5 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ImageView
+        android:id="@+id/camera"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/gray_camera_ic"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="38dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
